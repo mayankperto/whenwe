@@ -10,7 +10,6 @@ interface TimeRangeSelectorProps {
   onEndChange: (t: string) => void;
 }
 
-// Generate time options in 30-min increments
 function generateTimeOptions() {
   const options: { value: string; label: string }[] = [];
   for (let h = 0; h < 24; h++) {
@@ -27,55 +26,44 @@ function generateTimeOptions() {
 
 const TIME_OPTIONS = generateTimeOptions();
 
-export function TimeRangeSelector({
-  startTime,
-  endTime,
-  onStartChange,
-  onEndChange,
-}: TimeRangeSelectorProps) {
+export function TimeRangeSelector({ startTime, endTime, onStartChange, onEndChange }: TimeRangeSelectorProps) {
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+      <div className="flex items-center gap-2 text-sm text-gray-500">
         <Clock size={14} />
-        <span>Time range for each day</span>
+        <span className="font-medium">Time range for each day</span>
       </div>
       <div className="flex items-center gap-3">
         <div className="flex-1">
-          <label className="text-xs text-muted-foreground mb-1.5 block">From</label>
+          <label className="text-xs text-gray-500 font-medium mb-1.5 block">From</label>
           <select
             value={startTime}
             onChange={(e) => onStartChange(e.target.value)}
             className={cn(
-              "w-full h-10 rounded-xl border border-border bg-white/5 px-3 text-sm text-foreground",
-              "focus:outline-none focus:border-primary/50 focus:bg-white/8",
-              "transition-all duration-200 cursor-pointer"
+              "w-full h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900",
+              "focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100",
+              "transition-all duration-200 cursor-pointer hover:border-gray-300"
             )}
           >
             {TIME_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value} className="bg-[#0f1117]">
-                {o.label}
-              </option>
+              <option key={o.value} value={o.value}>{o.label}</option>
             ))}
           </select>
         </div>
-
-        <div className="text-muted-foreground text-sm mt-5">to</div>
-
+        <div className="text-gray-400 text-sm mt-5">to</div>
         <div className="flex-1">
-          <label className="text-xs text-muted-foreground mb-1.5 block">Until</label>
+          <label className="text-xs text-gray-500 font-medium mb-1.5 block">Until</label>
           <select
             value={endTime}
             onChange={(e) => onEndChange(e.target.value)}
             className={cn(
-              "w-full h-10 rounded-xl border border-border bg-white/5 px-3 text-sm text-foreground",
-              "focus:outline-none focus:border-primary/50 focus:bg-white/8",
-              "transition-all duration-200 cursor-pointer"
+              "w-full h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm text-gray-900",
+              "focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100",
+              "transition-all duration-200 cursor-pointer hover:border-gray-300"
             )}
           >
             {TIME_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value} className="bg-[#0f1117]">
-                {o.label}
-              </option>
+              <option key={o.value} value={o.value}>{o.label}</option>
             ))}
           </select>
         </div>

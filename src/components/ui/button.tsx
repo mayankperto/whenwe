@@ -6,30 +6,32 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-40 active:scale-[0.98]",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 disabled:pointer-events-none disabled:opacity-40 active:scale-[0.98]",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 hover:shadow-primary/30",
+          "bg-orange-500 text-white shadow-sm hover:bg-orange-600",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-red-500 text-white hover:bg-red-600",
         outline:
-          "border border-border bg-transparent hover:bg-white/5 hover:border-white/20",
+          "border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-300",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-white/5",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-gray-100 text-gray-700 hover:bg-gray-200",
+        ghost:
+          "text-gray-600 hover:bg-gray-100 hover:text-gray-900",
+        link:
+          "text-orange-500 underline-offset-4 hover:underline",
         gradient:
-          "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 hover:from-violet-500 hover:to-indigo-500",
+          "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md shadow-orange-200 hover:shadow-orange-300 hover:from-orange-600 hover:to-orange-700",
         glass:
-          "glass text-foreground hover:bg-white/8 border-white/10",
+          "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 shadow-sm",
       },
       size: {
         default: "h-10 px-5 py-2",
         sm: "h-8 rounded-lg px-3 text-xs",
         lg: "h-12 rounded-xl px-8 text-base",
-        xl: "h-14 rounded-2xl px-10 text-base font-semibold",
+        xl: "h-14 rounded-2xl px-10 text-base font-bold",
         icon: "h-10 w-10",
       },
     },

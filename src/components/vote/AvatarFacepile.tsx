@@ -17,12 +17,7 @@ const sizeConfig = {
   md: { outer: "w-8 h-8", text: "text-xs", overlap: "-ml-2.5", ring: "ring-2" },
 };
 
-export function AvatarFacepile({
-  names,
-  maxVisible = 4,
-  size = "sm",
-  className,
-}: AvatarFacepileProps) {
+export function AvatarFacepile({ names, maxVisible = 4, size = "sm", className }: AvatarFacepileProps) {
   const visible = names.slice(0, maxVisible);
   const overflow = names.length - maxVisible;
   const cfg = sizeConfig[size];
@@ -31,32 +26,25 @@ export function AvatarFacepile({
 
   return (
     <div className={cn("flex items-center", className)}>
-      {visible.map((name, i) => {
-        const color = getAvatarColor(name);
-        return (
-          <motion.div
-            key={name}
-            initial={{ scale: 0, x: -10 }}
-            animate={{ scale: 1, x: 0 }}
-            transition={{ delay: i * 0.05, type: "spring", stiffness: 400, damping: 25 }}
-            className={cn(
-              cfg.outer,
-              "rounded-full flex-shrink-0",
-              `bg-gradient-to-br ${color}`,
-              "flex items-center justify-center text-white font-semibold",
-              cfg.text,
-              cfg.ring,
-              "ring-background",
-              i > 0 && cfg.overlap,
-              "shadow-sm"
-            )}
-            title={name}
-            style={{ zIndex: visible.length - i }}
-          >
-            {getInitials(name)}
-          </motion.div>
-        );
-      })}
+      {visible.map((name, i) => (
+        <motion.div
+          key={name}
+          initial={{ scale: 0, x: -10 }}
+          animate={{ scale: 1, x: 0 }}
+          transition={{ delay: i * 0.05, type: "spring", stiffness: 400, damping: 25 }}
+          className={cn(
+            cfg.outer, "rounded-full flex-shrink-0",
+            `bg-gradient-to-br ${getAvatarColor(name)}`,
+            "flex items-center justify-center text-white font-semibold",
+            cfg.text, cfg.ring, "ring-white",
+            i > 0 && cfg.overlap, "shadow-sm"
+          )}
+          title={name}
+          style={{ zIndex: visible.length - i }}
+        >
+          {getInitials(name)}
+        </motion.div>
+      ))}
 
       {overflow > 0 && (
         <motion.div
@@ -64,13 +52,9 @@ export function AvatarFacepile({
           animate={{ scale: 1 }}
           transition={{ delay: visible.length * 0.05 }}
           className={cn(
-            cfg.outer,
-            "rounded-full flex-shrink-0 bg-white/10 border border-white/20",
-            "flex items-center justify-center text-muted-foreground font-semibold",
-            cfg.text,
-            cfg.ring,
-            "ring-background",
-            cfg.overlap
+            cfg.outer, "rounded-full flex-shrink-0 bg-gray-100 border border-gray-200",
+            "flex items-center justify-center text-gray-600 font-semibold",
+            cfg.text, cfg.ring, "ring-white", cfg.overlap
           )}
           style={{ zIndex: 0 }}
         >

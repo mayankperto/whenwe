@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { format, parseISO } from "date-fns";
-import { Crown } from "lucide-react";
+import { Trophy } from "lucide-react";
 import { cn, formatTime } from "@/lib/utils";
 import { AvatarFacepile } from "./AvatarFacepile";
 import type { EventSlot } from "@/types";
@@ -30,12 +30,7 @@ function getWinnerIds(slots: EventSlot[]): Set<string> {
   return new Set(slots.filter((s) => s.votes.length === maxVotes).map((s) => s.id));
 }
 
-export function MobileDateCards({
-  slots,
-  participantName,
-  myVotes,
-  onToggle,
-}: MobileDateCardsProps) {
+export function MobileDateCards({ slots, participantName, myVotes, onToggle }: MobileDateCardsProps) {
   const grouped = groupByDate(slots);
   const winnerIds = getWinnerIds(slots);
   const dates = Array.from(grouped.keys()).sort();
@@ -60,51 +55,30 @@ export function MobileDateCards({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: dateIdx * 0.05 }}
-            className={cn(
-              "rounded-2xl border overflow-hidden",
-              hasWinner
-                ? "border-yellow-500/30 bg-yellow-500/5"
-                : "glass"
+            className={cn("rounded-2xl border overflow-hidden",
+              hasWinner ? "border-orange-200 bg-orange-50" : "border-gray-200 bg-white"
             )}
           >
-            {/* Date header */}
-            <div
-              className={cn(
-                "px-4 py-3 border-b flex items-center justify-between",
-                hasWinner
-                  ? "border-yellow-500/20 bg-yellow-500/8"
-                  : "border-white/8 bg-white/3"
-              )}
-            >
+            <div className={cn("px-4 py-3 border-b flex items-center justify-between",
+              hasWinner ? "border-orange-200 bg-orange-100/60" : "border-gray-100 bg-gray-50"
+            )}>
               <div>
-                <p
-                  className={cn(
-                    "text-xs font-medium uppercase tracking-wider",
-                    hasWinner ? "text-yellow-500" : "text-muted-foreground"
-                  )}
-                >
+                <p className={cn("text-xs font-semibold uppercase tracking-wider",
+                  hasWinner ? "text-orange-500" : "text-gray-500")}>
                   {format(dateObj, "EEEE")}
                 </p>
-                <p
-                  className={cn(
-                    "text-lg font-bold",
-                    hasWinner ? "text-yellow-300" : "text-foreground"
-                  )}
-                >
+                <p className={cn("text-lg font-bold", hasWinner ? "text-orange-700" : "text-gray-900")}>
                   {format(dateObj, "MMMM d, yyyy")}
                 </p>
               </div>
               {hasWinner && (
-                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-yellow-500/15 border border-yellow-500/25">
-                  <Crown size={12} className="text-yellow-400" fill="currentColor" />
-                  <span className="text-xs font-medium text-yellow-400">
-                    Best day
-                  </span>
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-500 border border-orange-500">
+                  <Trophy size={12} className="text-white" fill="currentColor" />
+                  <span className="text-xs font-bold text-white">Best day</span>
                 </div>
               )}
             </div>
 
-            {/* Time slots */}
             <div className="p-3 space-y-2">
               {dateSlots.map((slot) => {
                 const isMyVote = myVotes.has(slot.id);
@@ -122,17 +96,15 @@ export function MobileDateCards({
                       "relative w-full rounded-xl border p-3.5 text-left transition-all duration-200 overflow-hidden",
                       "flex items-center justify-between gap-3",
                       isMyVote
-                        ? "bg-violet-600/20 border-violet-500/50"
-                        : "bg-white/3 border-white/8 hover:bg-white/6 hover:border-white/15",
-                      isWinner && "winner-slot"
+                        ? "bg-orange-50 border-orange-300"
+                        : "bg-white border-gray-200 hover:bg-gray-50 hover:border-gray-300",
+                      isWinner && "winner-slot border-orange-400"
                     )}
                   >
-                    {/* Fill bar */}
                     {voteCount > 0 && (
                       <div
-                        className={cn(
-                          "absolute inset-y-0 left-0 transition-all duration-500 rounded-xl",
-                          isWinner ? "bg-yellow-500/8" : "bg-emerald-500/8"
+                        className={cn("absolute inset-y-0 left-0 transition-all duration-500 rounded-xl",
+                          isWinner ? "bg-orange-100/60" : "bg-green-50"
                         )}
                         style={{ width: `${fillPct * 100}%` }}
                       />
@@ -140,41 +112,31 @@ export function MobileDateCards({
 
                     <div className="relative z-10 flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        {isWinner && (
-                          <Crown size={12} className="text-yellow-400" fill="currentColor" />
-                        )}
-                        <p className="text-sm font-semibold text-foreground font-mono">
+                        {isWinner && <Trophy size={12} className="text-orange-500" fill="currentColor" />}
+                        <p className="text-sm font-bold text-gray-900 font-mono">
                           {formatTime(slot.startTime)} – {formatTime(slot.endTime)}
                         </p>
                         {isMyVote && (
-                          <span className="text-xs px-1.5 py-0.5 rounded-full bg-violet-500/20 text-violet-300 font-medium">
+                          <span className="text-xs px-1.5 py-0.5 rounded-full bg-orange-500 text-white font-semibold">
                             You ✓
                           </span>
                         )}
                       </div>
-
                       {voterNames.length > 0 && (
                         <div className="flex items-center gap-2">
                           <AvatarFacepile names={voterNames} maxVisible={4} size="xs" />
-                          <span className="text-xs text-muted-foreground">
-                            {voteCount} available
-                          </span>
+                          <span className="text-xs text-gray-500">{voteCount} available</span>
                         </div>
                       )}
                     </div>
 
-                    {/* Tap indicator */}
-                    <div
-                      className={cn(
-                        "relative z-10 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all",
-                        isMyVote
-                          ? "bg-violet-500/30 text-violet-300"
-                          : "bg-white/5 text-muted-foreground/50"
-                      )}
-                    >
+                    <div className={cn(
+                      "relative z-10 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all",
+                      isMyVote ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-400"
+                    )}>
                       {isMyVote ? (
                         <svg viewBox="0 0 16 16" className="w-4 h-4" fill="currentColor">
-                          <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+                          <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 1 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
                         </svg>
                       ) : (
                         <svg viewBox="0 0 16 16" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5">
